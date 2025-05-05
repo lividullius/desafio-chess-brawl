@@ -10,7 +10,7 @@ class Player:
         #ponto no torneio (todos começam com 70)
         self.pontos = 70 
         #dicionário para contar os eventos recebidos ao longo do torneio
-        self.estatisticas = {
+        self.eventos = {
             'jogada_original': 0,
             'gafe': 0,
             'posicionamento': 0,
