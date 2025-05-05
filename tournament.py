@@ -23,6 +23,15 @@ class Tournament:
     def partidas_pendentes(self):
         #retorna todas as partidas que ainda não foram finalizadas
         return [m for m in self.rodadas[-1] if not m.finalizada]
+    
+    def mostrar_historico(self):
+        print("\n Histórico de partidas:")
+        if not self.historico:
+            print("Nenhuma partida foi registrada ainda.")
+            return
+        for partida in self.historico:
+            j1, j2, vencedor = partida
+            print(f"{j1} vs {j2} → Vencedor: {vencedor}")
 
     def avancar_fase(self):
         #coleta vencedores das partidas e cria nova rodada
