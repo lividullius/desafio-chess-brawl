@@ -1,33 +1,43 @@
 import random
 
-EVENTOS = {
-    'jogada_original': 5,
-    'gafe': -3,
-    'posicionamento': 2,
-    'desrespeito': -5,
-    'furia': -7
-}
-
+#representa uma batalha entre dois jogadores
 class Match:
     def __init__(self, jogador1, jogador2):
-        self.jogador1 = jogador1
-        self.jogador2 = jogador2
-        self.eventos_aplicados = {jogador1.nickname: [], jogador2.nickname: []}
+        #jogadores que participam
+        self.j1 = jogador1
+        self.j2 = jogador2
+        #dicionário que guarda quais eventos foram aplicados a cada jogador
+        self.eventos_aplicados = {self.j1: set(), self.j2: set()}
+        #flag para saber se a partida já foi administrada
         self.finalizada = False
-        self.vencedor = None
 
-    def aplicar_evento(self, jogador, evento):
-        if evento not in self.eventos_aplicados[jogador.nickname]:
-            jogador.pontos += EVENTOS[evento]
-            jogador.estatisticas[evento] += 1
-            self.eventos_aplicados[jogador.nickname].append(evento)
+    def registrar_evento(self, jogador, evento):
+        #aplica um evento ao jogador, apenas se ele ainda não recebeu esse evento nesta partida
+        if evento not in self.eventos_aplicados[jogador]:
+            self.eventos_aplicados[jogador].add(evento)
+            #mapeamento de eventos com seus respectivos valores
+            valores = {
+                'jogada_original': 5,
+                'gafe': -3,
+                'posicionamento': 2,
+                'desrespeito': -5,
+                'furia': -7
+            }
+            jogador.pontos += valores[evento]
+            jogador.eventos[evento] += 1
 
-    def resolver_partida(self):
-        if self.jogador1.pontos == self.jogador2.pontos:
-            escolhido = random.choice([self.jogador1, self.jogador2])
-            escolhido.pontos += 2
-            print(f"⚡ Blitz Match! {escolhido.nickname} ganhou 2 pontos.")
+    def calcular_resultado(self):
+        #verifica pontuação dos jogadores e determina vencedor
+        if self.j1.pontos > self.j2.pontos:
+            return self.j1
+        elif self.j2.pontos > self.j1.pontos:
+            return self.j2
+        else:
+            #se empate, realiza Blitz Match
+            return self.blitz_match()
 
-        self.vencedor = self.jogador1 if self.jogador1.pontos > self.jogador2.pontos else self.jogador2
-        self.vencedor.pontos += 30
-        self.finalizada = True
+    def blitz_match(self):
+        #escolhe aleatoriamente um dos dois jogadores e adiciona +2 pontos
+        escolhido = random.choice([self.j1, self.j2])
+        escolhido.pontos += 2
+        return escolhido
