@@ -65,26 +65,32 @@ while True:
 
         #aplica os eventos para cada jogador manualmente
         for jogador in [partida.j1, partida.j2]:
-            print(f"\nEventos para {jogador.nickname}")
-            for evento in ['jogada_original', 'gafe', 'posicionamento', 'desrespeito', 'furia']:
-                resp = input(f"{evento.replace('_', ' ').title()}? (s/n): ")
-                if resp.lower() == "s":
-                    partida.registrar_evento(jogador, evento)
+    print(f"\nEventos para {jogador.nickname}")
+    for evento in ['jogada_original', 'gafe', 'posicionamento', 'desrespeito', 'furia']:
+        resp = input(f"{evento.replace('_', ' ').title()}? (s/n): ")
+        if resp.lower() == "s":
+            partida.registrar_evento(jogador, evento)
 
-        #calcula vencedor e realiza Blitz Match se necessário
+        #calcula o vencedor e aplica bônus
         vencedor = partida.calcular_resultado()
-        vencedor.pontos += 30  # bônus do vencedor
+        vencedor.pontos += 30
         print(f"Vencedor da partida: {vencedor.nickname}")
+
+        #marca como finalizada
         partida.finalizada = True
         print("Partida encerrada.")
 
-    #exibe o ranking final com estatísticas e o campeão
-    elif op == "4":
-        if torneio:
-            torneio.mostrar_resultado_final()
-            torneio.mostrar_campeao()
-        else:
-            print("O torneio ainda não foi iniciado.")
+        #verifica se todas as partidas da rodada foram finalizadas
+        if torneio.todas_rodadas_finalizadas():
+            torneio.avancar_fase()
+
+      #exibe o ranking final com estatísticas e o campeão
+        elif op == "4":
+            if torneio:
+                torneio.mostrar_resultado_final()
+                torneio.mostrar_campeao()
+            else:
+                print("O torneio ainda não foi iniciado.")
 
     #histórico de batalhas
     elif op == "5":
