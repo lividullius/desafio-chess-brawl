@@ -10,6 +10,7 @@ O desafio propõe a criação de um sistema para:
 - Exibir relatórios e histórico das batalhas.
 
 Funcionalidades disponíveis
+
 [1] Cadastro de jogadores
 Entrada de nome, nickname e ranking.
 Validação: de 4 a 8 jogadores, número par.
