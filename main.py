@@ -82,6 +82,7 @@ while True:
 
         #verifica se todas as partidas da rodada foram finalizadas
         if torneio.todas_rodadas_finalizadas():
+            print("Todas as partidas foram jogadas. Nova fase iniciada!")
             torneio.avancar_fase()
 
       #exibe o ranking final com estatísticas e o campeão
